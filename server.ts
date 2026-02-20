@@ -86,7 +86,8 @@ function setupServer(server: Server) {
                                 prefersBorder: true,
                                 csp: {
                                     connectDomains: ["https://platform.nexs.com"],
-                                    resourceDomains: ["https://platform.nexs.com"]
+                                    resourceDomains: ["https://platform.nexs.com"],
+                                    frameDomains: ["https://platform.nexs.com"]
                                 },
                             },
                         },

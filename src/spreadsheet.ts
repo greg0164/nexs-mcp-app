@@ -9,8 +9,9 @@ const debugLogs: any[] = [];
 
 app.ontoolinput = (params) => {
   debugLogs.push({ hook: 'ontoolinput', data: params });
-  if (params.arguments && typeof params.arguments.app_url === 'string') {
-    targetUrl = params.arguments.app_url;
+  const args = params.arguments as any;
+  if (args && typeof args.app_url === 'string') {
+    targetUrl = args.app_url;
   }
 };
 

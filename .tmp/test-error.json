@@ -1,0 +1,12 @@
+[
+  {
+    "code": "invalid_value",
+    "values": [
+      "tools/list"
+    ],
+    "path": [
+      "method"
+    ],
+    "message": "Invalid input: expected \"tools/list\""
+  }
+]
