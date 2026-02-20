@@ -59,14 +59,13 @@ async function main() {
 
     server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (request.params.name === "render_nexs_spreadsheet") {
-            const args = request.params.arguments as any;
-            const app_url = args.app_url;
+            const args = request.params.arguments || {};
+            const app_url = (args as any).app_url || "unknown url";
             return {
-                content: [{ type: "text", text: `Rendering spreadsheet: ${app_url}` }],
-                structuredContent: { app_url }
-            } as any;
+                content: [{ type: "text", text: `Render tool executed successfully. Instructed UI to load: ${app_url}. Arguments received: ${JSON.stringify(args)}` }]
+            };
         }
-        throw new Error(`Tool not found: ${request.params.name}`);
+        throw new McpError(ErrorCode.MethodNotFound, `Tool not found: ${request.params.name}`);
     });
 
     server.setRequestHandler(ListResourcesRequestSchema, async () => {
