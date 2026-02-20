@@ -5,7 +5,18 @@ const root = document.getElementById("app-root")!;
 const app = new App({ name: "NExS Viewer", version: "1.0.0" });
 
 app.ontoolresult = (result) => {
-  const url = (result as any).structuredContent?.app_url || (result as any).arguments?.app_url;
+  let url: string | null = null;
+  if (result && result.content && Array.isArray(result.content)) {
+    for (const block of result.content) {
+      if (block.type === "text" && block.text) {
+        const match = block.text.match(/https:\/\/platform\.nexs\.com\/app\/[\w-]+/);
+        if (match) {
+          url = match[0];
+          break;
+        }
+      }
+    }
+  }
 
   if (!url) {
     root.innerHTML = `<p class="loading">No spreadsheet URL provided.</p>`;
