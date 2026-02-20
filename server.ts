@@ -97,7 +97,8 @@ async function main() {
                             ui: {
                                 prefersBorder: true,
                                 csp: {
-                                    frameDomains: ["https://platform.nexs.com"],
+                                    connectDomains: ["https://platform.nexs.com"],
+                                    resourceDomains: ["https://platform.nexs.com"]
                                 },
                             },
                         },
