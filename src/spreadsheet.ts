@@ -1,4 +1,4 @@
-import { App, PostMessageTransport } from "@modelcontextprotocol/ext-apps";
+import { App } from "@modelcontextprotocol/ext-apps";
 
 const root = document.getElementById("app-root")!;
 
@@ -52,6 +52,15 @@ app.ontoolresult = (result) => {
   </div>`;
 };
 
-app.connect(new PostMessageTransport(window.parent)).then(() => {
+app.connect().then(() => {
   console.log("App connected successfully.");
+
+  // Set default body styling
+  const container = document.querySelector(".container") as HTMLElement;
+  if (container) {
+    const ctx = app.getHostContext();
+    if (ctx && ctx.safeAreaInsets) {
+      container.style.padding = `${ctx.safeAreaInsets.top}px ${ctx.safeAreaInsets.right}px ${ctx.safeAreaInsets.bottom}px ${ctx.safeAreaInsets.left}px`;
+    }
+  }
 }).catch(console.error);

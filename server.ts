@@ -38,7 +38,6 @@ function setupServer(server: Server) {
                         required: ["app_url"],
                     },
                     _meta: {
-                        "ui/resourceUri": "ui://nexs/spreadsheet-v2.html",
                         ui: { resourceUri: "ui://nexs/spreadsheet-v2.html" }
                     }
                 }
@@ -51,7 +50,8 @@ function setupServer(server: Server) {
             const args = request.params.arguments || {};
             const app_url = (args as any).app_url || "unknown url";
             return {
-                content: [{ type: "text", text: `Render tool executed successfully. Instructed UI to load: ${app_url}. Arguments received: ${JSON.stringify(args)}` }]
+                content: [{ type: "text", text: `Render tool executed successfully. Instructed UI to load: ${app_url}. Arguments received: ${JSON.stringify(args)}` }],
+                structuredContent: { app_url }
             };
         }
         throw new McpError(ErrorCode.MethodNotFound, `Tool not found: ${request.params.name}`);
