@@ -20,20 +20,7 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3001;
 const RESOURCE_MIME_TYPE = 'text/html;profile=mcp-app';
 
-async function main() {
-    const server = new Server(
-        {
-            name: 'nexs-mcp-app',
-            version: '1.0.0',
-        },
-        {
-            capabilities: {
-                tools: {},
-                resources: {},
-            },
-        }
-    );
-
+function setupServer(server: Server) {
     server.setRequestHandler(ListToolsRequestSchema, async () => {
         return {
             tools: [
@@ -107,24 +94,41 @@ async function main() {
                 ],
             };
         }
-        throw new Error(`Resource not found: ${request.params.uri}`);
+        throw new McpError(ErrorCode.InvalidRequest, `Resource not found: ${request.params.uri}`);
     });
+}
 
+async function main() {
     const app = express();
     app.use(cors());
 
-    let transport: SSEServerTransport;
+    const transports = new Map<string, SSEServerTransport>();
 
     app.get('/mcp', async (_req, res) => {
-        transport = new SSEServerTransport('/mcp/messages', res);
+        const transport = new SSEServerTransport('/mcp/messages', res);
+
+        const server = new Server(
+            { name: 'nexs-mcp-app', version: '1.0.0' },
+            { capabilities: { tools: {}, resources: {} } }
+        );
+        setupServer(server);
+
+        transports.set(transport.sessionId, transport);
+        res.on('close', () => {
+            transports.delete(transport.sessionId);
+        });
+
         await server.connect(transport);
     });
 
     app.post('/mcp/messages', async (req, res) => {
+        const sessionId = req.query.sessionId as string;
+        const transport = transports.get(sessionId);
+
         if (transport) {
             await transport.handlePostMessage(req, res);
         } else {
-            res.status(400).send('No active session. Please connect to /mcp first.');
+            res.status(404).send('Session not found. Please connect to /mcp first.');
         }
     });
 
