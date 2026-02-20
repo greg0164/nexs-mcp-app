@@ -38,8 +38,8 @@ function setupServer(server: Server) {
                         required: ["app_url"],
                     },
                     _meta: {
-                        "ui/resourceUri": "ui://nexs/spreadsheet.html",
-                        ui: { resourceUri: "ui://nexs/spreadsheet.html" }
+                        "ui/resourceUri": "ui://nexs/spreadsheet-v2.html",
+                        ui: { resourceUri: "ui://nexs/spreadsheet-v2.html" }
                     }
                 }
             ]
@@ -61,7 +61,7 @@ function setupServer(server: Server) {
         return {
             resources: [
                 {
-                    uri: "ui://nexs/spreadsheet.html",
+                    uri: "ui://nexs/spreadsheet-v2.html",
                     name: "nexs-spreadsheet",
                     mimeType: RESOURCE_MIME_TYPE
                 }
@@ -70,7 +70,7 @@ function setupServer(server: Server) {
     });
 
     server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
-        if (request.params.uri === "ui://nexs/spreadsheet.html") {
+        if (request.params.uri === "ui://nexs/spreadsheet-v2.html") {
             const html = await fs.readFile(
                 path.join(__dirname, "dist", "spreadsheet.html"),
                 "utf-8"
@@ -78,7 +78,7 @@ function setupServer(server: Server) {
             return {
                 contents: [
                     {
-                        uri: "ui://nexs/spreadsheet.html",
+                        uri: "ui://nexs/spreadsheet-v2.html",
                         mimeType: RESOURCE_MIME_TYPE,
                         text: html,
                         _meta: {
