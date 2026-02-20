@@ -15,7 +15,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const RESOURCE_MIME_TYPE = 'text/html;profile=mcp-app';
 
 async function main() {
