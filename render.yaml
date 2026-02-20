@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: nexs-mcp-app
+    env: node
+    plan: free
+    repo: https://github.com/gjcla/nexs-mcp-app # Please update if your username differs
+    buildCommand: npm install && npm run build
+    startCommand: npm run serve
+    envVars:
+      - key: NODE_VERSION
+        value: 20
