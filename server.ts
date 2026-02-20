@@ -63,11 +63,6 @@ async function main() {
             const app_url = args.app_url;
             return {
                 content: [{ type: "text", text: `Rendering spreadsheet: ${app_url}` }],
-                // Injecting _meta and structuredContent to work with ext-apps UI rendering proxy
-                _meta: {
-                    "ui/resourceUri": "ui://nexs/spreadsheet.html",
-                    ui: { resourceUri: "ui://nexs/spreadsheet.html" }
-                },
                 structuredContent: { app_url }
             } as any;
         }
