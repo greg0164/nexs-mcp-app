@@ -2,3 +2,59 @@ node_modules/
 dist/
 .env
 error.log
+
+# === secrets (never commit) ===
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.pat
+*secret*.json
+*credential*.json
+*serviceaccount*.json
+.secrets-backup.local
+
+# === python ===
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# === node ===
+node_modules/
+.npm/
+
+# === logs / temp ===
+*.log
+*.tmp
+.cache/
+
+# === models / large data ===
+*.pth
+*.ckpt
+*.h5
+*.parquet
+*.onnx
+
+# === os / editor ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# === agent caches (local only) ===
+.claude/
+.superpowers/
+
+# === repo-specific ===
+# nested third-party clones (modelcontextprotocol/ext-apps) - not ours
+ext-apps/
+.tmp/
